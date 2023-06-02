@@ -1,45 +1,28 @@
-from hero import HerosInfo, GamesInfo
+from helpers import get_hero_stat, get_game_stat
 
-list_regions = [
-    {
-        'name': 'Eastern Europe',
-        'statistic_hero_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/Eastern_Europe/Statistics/Division_I',
-        'all_game_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/Eastern_Europe/Division_I'
-    },
-    {
-        'name': 'China',
-        'statistic_hero_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/China/Statistics/Division_I',
-        'all_game_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/China/Division_I'
-    },
-    {
-        'name': 'Western Europe',
-        'statistic_hero_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/Western_Europe/Statistics/Division_I',
-        'all_game_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/Western_Europe/Division_I'
-    },
-    {
-        'name': 'North America',
-        'statistic_hero_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/North_America/Statistics/Division_I',
-        'all_game_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/North_America/Division_I'
-    },
-    {
-        'name': 'South America',
-        'statistic_hero_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/South_America/Statistics/Division_I',
-        'all_game_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/South_America/Division_I'
-    },
-    {
-        'name': 'Southeast Asia',
-        'statistic_hero_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/Southeast_Asia/Statistics/Division_I',
-        'all_game_url': 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/Southeast_Asia/Division_I'
-    }
+
+host = 'https://liquipedia.net/dota2/Dota_Pro_Circuit/2023/3/'
+
+hero_stat_url = [
+    f'{host}Eastern_Europe/Statistics/Division_I',
+    # f'{host}China/Statistics/Division_I',
+    # f'{host}Western_Europe/Statistics/Division_I',
+    # f'{host}North_America/Statistics/Division_I',
+    # f'{host}South_America/Statistics/Division_I',
+    # f'{host}Southeast_Asia/Statistics/Division_I'
 ]
 
-for region in list_regions:
-    heros = HerosInfo(region['statistic_hero_url'])
-    games = GamesInfo(region['all_game_url'], heros)
+game_stat_url = [
+    # ('Eastern Europe', f'{host}Eastern_Europe/Division_I'),
+    # ('China', f'{host}China/Division_I'),
+    ('Western Europe', f'{host}Western_Europe/Division_I'),
+    # ('North America', f'{host}North_America/Division_I'),
+    # ('South America', f'{host}North_America/Division_I'),
+    # ('Southeast Asia', f'{host}Southeast_Asia/Division_I')
+]
 
-    wr = 0
-    for game in games.getListGames():
-        if game['winner'] == game['predict']:
-            wr += 1
+hero_stat = get_hero_stat(hero_stat_url)
 
-    print(f'{region["name"]}:{wr / len(games) * 100}')
+game_stat = get_game_stat(game_stat_url, hero_stat)
+
+print(game_stat)
